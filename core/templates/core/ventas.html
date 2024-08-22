@@ -1,0 +1,27 @@
+{% extends "core/base_intranet.html" %}
+
+
+{% block content %}
+<h2>Venta de Productos</h2>
+<form method="post" id="ventaForm">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Guardar Venta</button>
+</form>
+  
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('ventaForm');
+        const productoSelect = form.querySelector('#id_producto');
+        const precioVentaInput = form.querySelector('#id_precio_venta');
+        
+        productoSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const precioUnitario = selectedOption.getAttribute('data-precio');
+            precioVentaInput.value = precioUnitario;
+        });
+    });
+    </script>
+{% endblock %}

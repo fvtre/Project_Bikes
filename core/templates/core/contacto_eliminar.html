@@ -1,0 +1,83 @@
+{% extends "core/base_intranet.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Eliminar Contacto</h5>
+            <p>¿Estás seguro de que deseas eliminar este contacto?</p>
+            <p><strong>Nombre:</strong> {{ contacto.nombre }}</p>
+            <p><strong>Email:</strong> {{ contacto.email }}</p>
+            <p><strong>Teléfono:</strong> {{ contacto.telefono }}</p>
+            <p><strong>Mensaje:</strong> {{ contacto.mensaje }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <a href="{% url 'contacto_listar' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .welcome-message {
+        background-color: #f8f9fa;
+        border: 2px solid #003366;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .welcome-message h1 {
+        color: #003366;
+        font-size: 2.5em;
+    }
+
+    .welcome-message p {
+        color: #333;
+        font-size: 1.2em;
+    }
+
+    .welcome-message .btn-primary {
+        background-color: #003366;
+        border-color: #003366;
+        margin-top: 15px;
+        padding: 10px 20px;
+    }
+
+    .welcome-message .btn-primary:hover {
+        background-color: #00509e;
+        border-color: #00509e;
+    }
+
+    .sections {
+        margin-top: 30px;
+    }
+
+    .section {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .section h2 {
+        color: #003366;
+        font-size: 2em;
+    }
+
+    .section p {
+        color: #333;
+        font-size: 1.1em;
+    }
+</style>
+{% endblock %}
+
+
+
+

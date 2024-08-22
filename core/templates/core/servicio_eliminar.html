@@ -1,0 +1,20 @@
+{% extends "core/base_intranet.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="card" style="width: 30rem;">
+        <div class="card-body">
+            <h5 class="card-title">Confirmar Eliminación de Servicio</h5>
+            <p>¿Está seguro de que desea eliminar el servicio "{{ servicio.id }}"?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+            </form>
+            <a href="{% url 'listar_servicios' %}" class="btn btn-secondary mt-2">Cancelar y Volver al Listado de Servicios</a>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

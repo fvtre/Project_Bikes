@@ -1,0 +1,44 @@
+{% extends "core/base_intranet.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1>Listado de Servicios</h1>
+    <a href="{% url 'servicio_agregar' %}" class="btn btn-success mb-3">Agregar Nuevo Servicio</a>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Bicicleta</th>
+                <th>Fecha de Servicio</th>
+                <th>Completado</th>
+                <th>imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for servicio in servicios %}
+            <tr>
+                <td>{{ servicio.id }}</td>
+                <td>{{ servicio.cliente }}</td>
+                <td>{{ servicio.bicicleta }}</td>
+                <td>{{ servicio.fecha_servicio }}</td>
+                <td>{% if servicio.imagen %}
+                    <img src="{{ servicio.imagen.url }}" alt="{{ servicio.marca }} {{ servicio.modelo }}" width="50">
+                {% else %}
+                    No Image
+                {% endif %}</td>
+                <td>{{ servicio.completado }}</td>
+                <td>
+                    <a href="{% url 'servicio_detalle' servicio.id %}" class="btn btn-info btn-sm">Ver Detalle</a>
+                    <a href="{% url 'servicio_actualizar' servicio.id %}" class="btn btn-primary btn-sm">Actualizar</a>
+                    <a href="{% url 'servicio_eliminar' servicio.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+{% endblock %}

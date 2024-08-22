@@ -1,0 +1,40 @@
+{% extends "core/base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Detalle de Venta</h2>
+    <dl class="row">
+        <dt class="col-sm-3">ID:</dt>
+        <dd class="col-sm-9">{{ venta.id }}</dd>
+
+        <dt class="col-sm-3">Producto:</dt>
+        <dd class="col-sm-9">{{ venta.producto }}</dd>
+
+        <dt class="col-sm-3">Fecha de Venta:</dt>
+        <dd class="col-sm-9">{{ venta.fecha_venta|date:"Y-m-d H:i" }}</dd>
+
+        <dt class="col-sm-3">Cantidad:</dt>
+        <dd class="col-sm-9">{{ venta.cantidad }}</dd>
+
+        <dt class="col-sm-3">Precio Unitario:</dt>
+        <dd class="col-sm-9">{{ venta.precio_unitario }}</dd>
+
+        <dt class="col-sm-3">Total:</dt>
+        <dd class="col-sm-9">{{ venta.total }}</dd>
+
+        <dt class="col-sm-3">Cliente:</dt>
+        <dd class="col-sm-9">{{ venta.cliente }}</dd>
+
+        <dt class="col-sm-3">Dirección de Envío:</dt>
+        <dd class="col-sm-9">{{ venta.direccion_envio }}</dd>
+
+        <dt class="col-sm-3">Teléfono de Contacto:</dt>
+        <dd class="col-sm-9">{{ venta.telefono_contacto }}</dd>
+
+        <dt class="col-sm-3">Email de Contacto:</dt>
+        <dd class="col-sm-9">{{ venta.email_contacto }}</dd>
+    </dl>
+    <a href="{% url 'listar_ventas' %}" class="btn btn-primary">Volver al Listado</a>
+</div>
+
+{% endblock %}

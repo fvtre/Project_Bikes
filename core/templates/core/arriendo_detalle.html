@@ -1,0 +1,23 @@
+{% extends "core/base_intranet.html" %}
+        {% block content %}
+
+        <div class="d-flex justify-content-center mt-5">
+            <div class="card" style="width: 30rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Detalle de Arriendo</h5>
+                    <p class="card-text"><strong>ID:</strong> {{ arriendo.id }}</p>
+                    <p class="card-text"><strong>Bicicleta:</strong> {{ arriendo.bicicleta }}</p>
+                    <p class="card-text"><strong>Cliente:</strong> {{ arriendo.cliente }}</p>
+                    <p class="card-text"><strong>Fecha de inicio:</strong> {{ arriendo.fecha_inicio }}</p>
+                    <p class="card-text"><strong>Fecha de fin:</strong> {{ arriendo.fecha_fin }}</p>
+                    <p class="card-text"><strong>Precio por día:</strong> {{ arriendo.precio_por_dia }}</p>
+                    <p class="card-text"><strong>Total:</strong> {{ arriendo.total }}</p>
+                    <a href="{% url 'mantenedor_arriendos' %}" class="btn btn-secondary">Volver al Listado de Arriendos</a>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        {% endblock %}

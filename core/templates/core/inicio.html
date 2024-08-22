@@ -1,0 +1,96 @@
+{% extends "core/base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="welcome-message">
+        <h1>¡Bienvenido a MasterBikes!</h1>
+        <p>Estamos encantados de tenerte aquí. Explora nuestra amplia gama de bicicletas y accesorios de alta calidad.</p>
+        <a href="{% url 'tienda' %}" class="btn btn-primary">Visita nuestra tienda</a>
+    </div>
+    {% if mensaje %}
+    <div class="alert alert-success" role="alert">
+        {{ mensaje }}
+    </div>
+    {% endif %}
+    <div class="sections">
+        <div class="section">
+            <h2>Bicicletas de Alta Calidad</h2>
+            <p>En MasterBikes, ofrecemos una amplia selección de bicicletas de muy alta calidad, diseñadas para satisfacer las necesidades de todo tipo de ciclistas. Ya seas un principiante o un profesional, tenemos la bicicleta perfecta para ti.</p>
+        </div>
+        
+        <div class="section">
+            <h2>Accesorios Innovadores</h2>
+            <p>Descubre los accesorios más novedosos para ciclistas y amantes del ciclismo. Desde cascos y luces hasta componentes de última generación, tenemos todo lo que necesitas para mejorar tu experiencia sobre dos ruedas.</p>
+        </div>
+        
+        <div class="section">
+            <h2>Sistema de Arriendos</h2>
+            <p>Para nuestros clientes frecuentes, ofrecemos un sistema de arriendos conveniente y flexible. Disfruta de nuestras bicicletas sin preocupaciones, con planes de arriendo adaptados a tus necesidades.</p>
+        </div>
+        
+        <div class="section">
+            <h2>Compromiso con el Medio Ambiente</h2>
+            <p>En MasterBikes, estamos comprometidos con la reducción de la huella de carbono. Promovemos el uso de la bicicleta como un medio de transporte sostenible y trabajamos para minimizar el impacto ambiental en todas nuestras operaciones.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .welcome-message {
+        background-color: #f8f9fa;
+        border: 2px solid #003366;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .welcome-message h1 {
+        color: #003366;
+        font-size: 2.5em;
+    }
+
+    .welcome-message p {
+        color: #333;
+        font-size: 1.2em;
+    }
+
+    .welcome-message .btn-primary {
+        background-color: #003366;
+        border-color: #003366;
+        margin-top: 15px;
+        padding: 10px 20px;
+    }
+
+    .welcome-message .btn-primary:hover {
+        background-color: #00509e;
+        border-color: #00509e;
+    }
+
+    .sections {
+        margin-top: 30px;
+    }
+
+    .section {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .section h2 {
+        color: #003366;
+        font-size: 2em;
+    }
+
+    .section p {
+        color: #333;
+        font-size: 1.1em;
+    }
+</style>
+{% endblock %}

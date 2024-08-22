@@ -1,0 +1,22 @@
+{% extends "core/base_intranet.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="card" style="width: 30rem;">
+        <div class="card-body">
+            <h5 class="card-title">Eliminar Venta</h5>
+            <p class="card-text">¿Estás seguro de que quieres eliminar la venta "{{ venta.id }}"?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <a href="{% url 'ventas_listar' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% endblock %}

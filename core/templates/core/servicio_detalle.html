@@ -1,0 +1,28 @@
+{% extends "core/base_intranet.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="card" style="width: 30rem;">
+        <div class="card-body">
+            <h5 class="card-title">Detalle de Servicio</h5>
+            <p><strong>ID:</strong> {{ servicio.id }}</p>
+            <p><strong>Cliente:</strong> {{ servicio.cliente }}</p>
+            <p><strong>Bicicleta:</strong> {{ servicio.bicicleta }}</p>
+            <p><strong>Fecha de Servicio:</strong> {{ servicio.fecha_servicio }}</p>
+            <p><strong>Descripción:</strong> {{ servicio.descripcion }}</p>
+            <p><strong>Precio:</strong> {{ servicio.precio }}</p>
+            <p><strong>Completado:</strong> {{ servicio.completado }}</p>
+            <p><strong>Imagen:</strong> 
+                {% if servicio.imagen %}
+                    <img src="{{ servicio.imagen.url }}" width="100">
+                {% else %}
+                    No Image
+                {% endif %}
+            </p>
+            <a href="{% url 'listar_servicios' %}" class="btn btn-secondary">Volver al Listado de Servicios</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

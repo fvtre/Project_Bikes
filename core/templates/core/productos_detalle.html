@@ -1,0 +1,27 @@
+{% extends "core/base_intranet.html" %}
+        {% block content %}
+
+        <div class="d-flex justify-content-center mt-5">
+          <div class="card" style="width: 28rem;">
+            {% if producto.imagen %}
+              <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.marca }} {{ producto.modelo }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ producto.marca }} {{ producto.modelo }}</h5>
+              <p class="card-text">
+                <strong>Categoría:</strong> {{ producto.categoria }}<br>
+                <strong>Color:</strong> {{ producto.color }}<br>
+                <strong>Stock:</strong> {{ producto.stock }}<br>
+                <strong>Precio:</strong> ${{ producto.precio }}<br>
+              </p>
+              <div class="d-flex justify-content-between">
+                <a href="{% url 'productos_actualiza' producto.pk %}" class="btn btn-primary btn-sm flex-fill mx-1">Editar</a>
+                <a href="{% url 'productos_eliminar' producto.pk %}" class="btn btn-danger btn-sm flex-fill mx-1">Eliminar</a>
+                <a href="{% url 'inicio_intra' %}" class="btn btn-secondary btn-sm flex-fill mx-1">Volver a la lista</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+
+        {% endblock %}

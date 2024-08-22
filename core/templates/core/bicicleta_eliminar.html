@@ -1,0 +1,15 @@
+{% extends "core/base_intranet.html" %}
+        {% block content %}
+
+        <div class="container mt-5">
+            <h2>Eliminar Bicicleta</h2>
+            <p>¿Estás seguro de que deseas eliminar esta bicicleta?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <a href="{% url 'mantenedor_bicicletas' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+        
+        
+        {% endblock %}

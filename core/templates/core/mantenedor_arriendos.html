@@ -1,0 +1,46 @@
+{% extends "core/base_intranet.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Mantenedor de Arriendos</h2>
+    <a href="{% url 'agregar_arriendo' %}" class="btn btn-success mb-3">Agregar Nuevo Arriendo</a>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Bicicleta</th>
+                <th>Cliente</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+                <th>Precio por Día</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for arriendo in arriendos %}
+            <tr>
+                <td>{{ arriendo.id }}</td>
+                <td>{{ arriendo.bicicleta }}</td>
+                <td>{{ arriendo.cliente }}</td>
+                <td>{{ arriendo.fecha_inicio }}</td>
+                <td>{{ arriendo.fecha_fin }}</td>
+                <td>{{ arriendo.precio_por_dia }}</td>
+                <td>{{ arriendo.total }}</td>
+                <td>
+                    <a href="{% url 'detalle_arriendo' arriendo.id %}" class="btn btn-info btn-sm">Ver Detalle</a>
+                    <a href="{% url 'actualizar_arriendo' arriendo.id %}" class="btn btn-primary btn-sm">Actualizar</a>
+                    <a href="{% url 'eliminar_arriendo' arriendo.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">No hay arriendos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

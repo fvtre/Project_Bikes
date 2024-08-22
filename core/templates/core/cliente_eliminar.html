@@ -1,0 +1,29 @@
+{% extends "core/base_intranet.html" %}
+        {% block content %}
+
+
+        <div class="d-flex justify-content-center mt-5">
+            <div class="card" style="width: 18rem;">
+                {% if cliente.imagen %}
+                <img src="{{ cliente.imagen.url }}" class="card-img-top" alt="{{ cliente.nombre }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ cliente.nombre }}</h5>
+                    <p class="card-text">
+                        <strong>Dirección:</strong> {{ cliente.direccion }}<br>
+                        <strong>Teléfono:</strong> {{ cliente.telefono }}<br>
+                        <strong>Email:</strong> {{ cliente.email }}<br>
+                    </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <p>¿Estás seguro que deseas eliminar este cliente?</p>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <a href="{% url 'mantenedor_clientes' %}" class="btn btn-secondary">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    
+
+        {% endblock %}

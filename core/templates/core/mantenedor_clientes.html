@@ -1,0 +1,51 @@
+{% extends "core/base_intranet.html" %}
+        {% block content %}
+
+
+        <div class="container mt-5">
+            <h2>Mantenedor de Clientes</h2>
+            <a href="{% url 'agregar_cliente' %}" class="btn btn-success mb-3">Agregar Cliente</a>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Contraseña</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes %}
+                    <tr>
+                        <td>
+                            {% if cliente.imagen %}
+                            <img src="{{ cliente.imagen.url }}" alt="{{ cliente.nombre }}" style="width: 100px; height: auto;">
+                            {% else %}
+                            No Image
+                            {% endif %}
+                        </td>
+                        <td>{{ cliente.usuario }}</td>
+                        <td>{{ cliente.nombre }}</td>
+                        <td>{{ cliente.contraseña}}</td>
+                        <td>{{ cliente.direccion }}</td>
+                        <td>{{ cliente.telefono }}</td>
+                        <td>{{ cliente.email }}</td>
+                        <td>
+                            <a href="{% url 'detalle_cliente' cliente.pk %}" class="btn btn-info btn-sm">Ver</a>
+                            <a href="{% url 'actualizar_cliente' cliente.pk %}" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="{% url 'eliminar_cliente' cliente.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+
+    
+
+        {% endblock %}

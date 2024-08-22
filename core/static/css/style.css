@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #003366; /* Color relacionado con Lahsen */
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-logo img {
+    height: 50px;
+}
+
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-menu li {
+    margin: 0 15px;
+}
+
+.navbar-menu a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-menu input[type="text"] {
+    padding: 5px;
+    border: none;
+    border-radius: 3px;
+}
+
+.footer-content {
+    background-color: #003366;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-media img {
+    width: 30px;
+    margin: 0 10px;
+}
+
+.footer-images img {
+    height: 100px;
+    margin: 0 10px;
+}

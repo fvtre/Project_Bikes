@@ -1,0 +1,78 @@
+{% extends "core/base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Confirmar Compra</h5>
+            <p>¿Estás seguro de que deseas comprar {{ producto.marca }} {{ producto.modelo }}?</p>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="confirmacion" value="true">
+                <button type="submit" class="btn btn-success">Confirmar Compra</button>
+                <a href="{% url 'tienda' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .welcome-message {
+        background-color: #f8f9fa;
+        border: 2px solid #003366;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .welcome-message h1 {
+        color: #003366;
+        font-size: 2.5em;
+    }
+
+    .welcome-message p {
+        color: #333;
+        font-size: 1.2em;
+    }
+
+    .welcome-message .btn-primary {
+        background-color: #003366;
+        border-color: #003366;
+        margin-top: 15px;
+        padding: 10px 20px;
+    }
+
+    .welcome-message .btn-primary:hover {
+        background-color: #00509e;
+        border-color: #00509e;
+    }
+
+    .sections {
+        margin-top: 30px;
+    }
+
+    .section {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .section h2 {
+        color: #003366;
+        font-size: 2em;
+    }
+
+    .section p {
+        color: #333;
+        font-size: 1.1em;
+    }
+</style>
+{% endblock %}

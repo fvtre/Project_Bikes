@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MasterBikes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #003366; /* Color relacionado con Lahsen */
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-link {
+            color: white !important;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #ddd !important;
+        }
+
+        .form-inline .form-control {
+            border-radius: 0.25rem;
+        }
+
+        .footer-content {
+            background-color: #003366;
+            color: white;
+            padding: 20px;
+        }
+
+        .social-media img {
+            width: 30px;
+            margin-right: 10px;
+        }
+
+        .footer-images img {
+            height: 100px;
+            margin-right: 10px;
+        }
+
+        .social-media a:hover img {
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .navbar-center {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .navbar-center .navbar-nav {
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid navbar-center">
+                <a class="navbar-brand" href="{% url 'inicio' %}">
+                    <img src="{% static 'img/masterbikes.png' %}" alt="MasterBikes Logo">
+                    <span class="logo-text">MasterBikes</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'inicio' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tienda' %}">Tienda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'registro' %}">Registro</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <a href="#" class="nav-link btn btn-link" style="padding: 0; color: white; text-decoration: none;" onclick="document.getElementById('logout-form').submit();">
+                            Salir
+                        </a>
+                    </form>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                </li>
+            {% endif %}
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    {% if user.is_authenticated %}
+    <div class="container-fluid bg-light py-5">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h3 class="card-title">¡Hola, {{ user.username }}!</h3>
+                            <p class="card-text lead">Recuerda que los clientes son lo más importante para MasterBikes.</p>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <main class="container mt-4">
+        {% block content %}
+        
+        {% endblock %}
+    </main>
+    
+    <footer class="footer-content mt-4">
+        <div class="container">
+            <div class="row">
+                <!-- Redes Sociales -->
+                <div class="col-md-4">
+                    <h5>Síguenos</h5>
+                    <div class="social-media">
+                        <a href="#"><img src="{% static 'img/facebook.png' %}" alt="Facebook"></a>
+                        <a href="#"><img src="{% static 'img/x.webp' %}" alt="Twitter"></a>
+                        <a href="#"><img src="{% static 'img/instagram.png' %}" alt="Instagram"></a>
+                    </div>
+                </div>
+                <!-- Información de Contacto -->
+                <div class="col-md-4">
+                    <h5>Contáctanos</h5>
+                    <ul class="list-unstyled">
+                        <li>Teléfono: +56 9 66660 06666</li>
+                        <li>Email: contacto@masterbikes.cl</li>
+                        <li>Dirección: Avenida Siempre Viva 1234, Santiago, Chile</li>
+                    </ul>
+                </div>
+                <!-- Información Adicional -->
+                <div class="col-md-4">
+                    <h5>Información</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col text-center">
+                    <p>&copy; 2024 MasterBikes. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

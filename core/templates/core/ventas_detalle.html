@@ -1,0 +1,25 @@
+{% extends "core/base_intranet.html" %}
+{% block content %}
+<div class="d-flex justify-content-center mt-5">
+    <div class="card" style="width: 30rem;">
+        <div class="card-body">
+            <h5 class="card-title">Detalle de Venta</h5>
+            <p><strong>ID:</strong> {{ venta.id }}</p>
+            <p><strong>Producto:</strong> {{ venta.producto }}</p>
+            <p><strong>Fecha de Venta:</strong> {{ venta.fecha_venta }}</p>
+            <p><strong>Cantidad:</strong> {{ venta.cantidad }}</p>
+            <p><strong>Precio Unitario:</strong> {{ venta.precio_unitario }}</p>
+            <p><strong>Total:</strong> {{ venta.total }}</p>
+            <p><strong>Cliente:</strong> {{ venta.cliente }}</p>
+            <p><strong>Dirección de Envío:</strong> {{ venta.direccion_envio }}</p>
+            <p><strong>Teléfono de Contacto:</strong> {{ venta.telefono_contacto }}</p>
+            <p><strong>Email de Contacto:</strong> {{ venta.email_contacto }}</p>
+            <a href="{% url 'ventas_listar' %}" class="btn btn-secondary">Volver al Listado de Ventas</a>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "core/base_intranet.html" %}
+        {% block content %}
+
+
+        <div class="d-flex justify-content-center mt-5">
+            <div class="card" style="width: 28rem;">
+                <div class="card-body">
+                    <h2 class="card-title">Editar Producto</h2>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-flex justify-content-between mt-3">
+                            <button type="submit" class="btn btn-primary btn-sm flex-fill mx-1">Guardar cambios</button>
+                            <a href="{% url 'inicio_intra' %}" class="btn btn-secondary btn-sm flex-fill mx-1">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% endblock %}

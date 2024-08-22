@@ -1,0 +1,90 @@
+{% extends "core/base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="welcome-message">
+        <h1>Contacta a MasterBikes</h1>
+        <p>¡Escríbenos hoy, y estaremos felices de responder todas tus dudas!</p>
+    </div>
+
+</div>
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="card" style="width: 28rem;">
+        <div class="card-body">
+            <h2 class="card-title">Contacto</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="form-group">
+                    <label for="{{ form.fecha_contacto.id_for_label }}">Fecha de Contacto:</label>
+                    <p>{{ form.instance.fecha_contacto }}</p>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .welcome-message {
+        background-color: #f8f9fa;
+        border: 2px solid #003366;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .welcome-message h1 {
+        color: #003366;
+        font-size: 2.5em;
+    }
+
+    .welcome-message p {
+        color: #333;
+        font-size: 1.2em;
+    }
+
+    .welcome-message .btn-primary {
+        background-color: #003366;
+        border-color: #003366;
+        margin-top: 15px;
+        padding: 10px 20px;
+    }
+
+    .welcome-message .btn-primary:hover {
+        background-color: #00509e;
+        border-color: #00509e;
+    }
+
+    .sections {
+        margin-top: 30px;
+    }
+
+    .section {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .section h2 {
+        color: #003366;
+        font-size: 2em;
+    }
+
+    .section p {
+        color: #333;
+        font-size: 1.1em;
+    }
+</style>
+{% endblock %}
+
+
+
+

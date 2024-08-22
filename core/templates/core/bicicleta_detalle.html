@@ -1,0 +1,22 @@
+{% extends "core/base_intranet.html" %}
+        {% block content %}
+
+        <div class="container mt-5">
+            <div class="card" style="width: 18rem;">
+                {% if bicicleta.imagen %}
+                <img src="{{ bicicleta.imagen.url }}" class="card-img-top" alt="{{ bicicleta.marca }} {{ bicicleta.modelo }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ bicicleta.marca }} {{ bicicleta.modelo }}</h5>
+                    <p class="card-text">
+                        <strong>Aro:</strong> {{ bicicleta.aro }}<br>
+                        <strong>Color:</strong> {{ bicicleta.color }}<br>
+                    </p>
+                    <a href="{% url 'actualizar_bicicleta' bicicleta.pk %}" class="btn btn-primary">Editar</a>
+                    <a href="{% url 'eliminar_bicicleta' bicicleta.pk %}" class="btn btn-danger">Eliminar</a>
+                    <a href="{% url 'mantenedor_bicicletas' %}" class="btn btn-secondary">Volver a la lista</a>
+                </div>
+            </div>
+        </div>
+        
+        {% endblock %}

@@ -1,0 +1,32 @@
+{% extends "core/base_intranet.html" %}
+        {% block content %}
+
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h2>Bienvenido a la Intranet de MasterBikes</h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Nos esforzamos por ofrecer el mejor servicio al cliente. A continuación, encontrarás un pequeño manual del menú:</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Ventas:</strong> Para efectuar ventas manuales, dirígete a <a href="{% url 'venta' %}">Venta</a>.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Servicio Técnico:</strong> Para ver el estado de los servicios, dirígete a <a href="{% url 'servicio_tecnico' %}">Servicio Técnico</a>.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Mantenedor de Usuarios:</strong> Si deseas modificar o eliminar usuarios, visita <a href="{% url 'mantenedor_usuarios' %}">Mantenedor de Usuarios</a>.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Mantenedor de Productos:</strong> Para actualizar, agregar o eliminar productos, ve a <a href="{% url 'mantenedor_productos' %}">Mantenedor de Productos</a>.
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer text-muted">
+                    Recuerda siempre mantener la información actualizada para mejorar nuestro servicio.
+                </div>
+            </div>
+        </div>
+
+        {% endblock %}

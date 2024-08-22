@@ -1,0 +1,111 @@
+ {% extends "core/base.html" %}
+        {% block content %}
+        
+        <div class="container">
+            <div class="welcome-message">
+                <h1>Registrate en MasterBikes</h1>
+                <p>¡Únete hoy y obtén descuentos exclusivos en nuestra amplia gama de bicicletas y accesorios de alta calidad!</p>
+            </div>
+        
+        </div>
+        
+<!-- En registrar_cliente.html -->
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="card" style="width: 28rem;">
+        <div class="card-body">
+            <h2 class="card-title">Registro Cliente</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if form.errors %}
+                    <div class="errors">
+                        <ul>
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <p class="{{ message.tags }}">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <button type="submit">Registrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+        
+            .welcome-message {
+                background-color: #f8f9fa;
+                border: 2px solid #003366;
+                border-radius: 10px;
+                padding: 20px;
+                text-align: center;
+                margin-top: 20px;
+            }
+        
+            .welcome-message h1 {
+                color: #003366;
+                font-size: 2.5em;
+            }
+        
+            .welcome-message p {
+                color: #333;
+                font-size: 1.2em;
+            }
+        
+            .welcome-message .btn-primary {
+                background-color: #003366;
+                border-color: #003366;
+                margin-top: 15px;
+                padding: 10px 20px;
+            }
+        
+            .welcome-message .btn-primary:hover {
+                background-color: #00509e;
+                border-color: #00509e;
+            }
+        
+            .sections {
+                margin-top: 30px;
+            }
+        
+            .section {
+                background-color: #f0f0f0;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+        
+            .section h2 {
+                color: #003366;
+                font-size: 2em;
+            }
+        
+            .section p {
+                color: #333;
+                font-size: 1.1em;
+            }
+        </style>
+        {% endblock %}
+        
+
+
+

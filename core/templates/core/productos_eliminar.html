@@ -1,0 +1,24 @@
+{% extends "core/base_intranet.html" %}
+        {% block content %}
+
+
+        <div class="d-flex justify-content-center mt-5">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h2 class="card-title">Eliminar Producto</h2>
+                    <p class="card-text">
+                        ¿Estás seguro de que deseas eliminar el producto <strong>{{ producto.marca }} {{ producto.modelo }}</strong>?
+                    </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between mt-3">
+                            <button type="submit" class="btn btn-danger btn-sm flex-fill mx-1">Eliminar</button>
+                            <a href="{% url 'inicio_intra' %}" class="btn btn-secondary btn-sm flex-fill mx-1">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+
+        {% endblock %}

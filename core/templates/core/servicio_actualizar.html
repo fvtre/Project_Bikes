@@ -1,0 +1,20 @@
+{% extends "core/base_intranet.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="card" style="width: 28rem;">
+        <div class="card-body">
+            <h1 class="card-title">Actualizar Servicio</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Actualizar Servicio</button>
+            </form>
+            <a href="{% url 'listar_servicios' %}" class="btn btn-secondary mt-3">Volver al Listado de Servicios</a>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

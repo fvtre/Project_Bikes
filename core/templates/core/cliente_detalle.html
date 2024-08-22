@@ -1,0 +1,27 @@
+{% extends "core/base_intranet.html" %}
+        {% block content %}
+
+        <div class="d-flex justify-content-center mt-5">
+          <div class="card" style="width: 18rem;">
+              {% if cliente.imagen %}
+              <img src="{{ cliente.imagen.url }}" class="card-img-top" alt="{{ cliente.nombre }}">
+              {% endif %}
+              <div class="card-body">
+                  <h5 class="card-title">{{ cliente.nombre }}</h5>
+                  <p class="card-text">
+                      <strong>Dirección:</strong> {{ cliente.direccion }}<br>
+                      <strong>Teléfono:</strong> {{ cliente.telefono }}<br>
+                      <strong>Email:</strong> {{ cliente.email }}<br>
+                  </p>
+                  <div class="d-flex justify-content-between">
+                      <a href="{% url 'actualizar_cliente' cliente.pk %}" class="btn btn-primary btn-sm flex-fill mx-1">Editar</a>
+                      <a href="{% url 'eliminar_cliente' cliente.pk %}" class="btn btn-danger btn-sm flex-fill mx-1">Eliminar</a>
+                      <a href="{% url 'mantenedor_clientes' %}" class="btn btn-secondary btn-sm flex-fill mx-1">Volver a la lista</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+    
+
+        {% endblock %}

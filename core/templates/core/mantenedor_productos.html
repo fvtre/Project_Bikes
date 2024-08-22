@@ -1,0 +1,48 @@
+{% extends "core/base_intranet.html" %}
+        {% block content %}
+
+
+    <main class="container mt-4">
+        <h2>Lista de Productos</h2>
+        <a href="{% url 'productos_nuevo' %}" class="btn btn-success mb-3">Agregar Producto</a>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Categoría</th>
+                    <th>Color</th>
+                    <th>Stock</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                    <tr>
+                        <td>{{ producto.marca }}</td>
+                        <td>{{ producto.modelo }}</td>
+                        <td>{{ producto.categoria }}</td>
+                        <td>{{ producto.color }}</td>
+                        <td>{{ producto.stock }}</td>
+                        <td>
+                            {% if producto.imagen %}
+                                <img src="{{ producto.imagen.url }}" alt="{{ producto.marca }} {{ producto.modelo }}" width="50">
+                            {% else %}
+                                No Image
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'productos_detalle' producto.pk %}"class="btn btn-info btn-sm">Ver</a>
+                            <a href="{% url 'productos_actualiza' producto.pk %}" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="{% url 'productos_eliminar' producto.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    
+
+        {% endblock %}
