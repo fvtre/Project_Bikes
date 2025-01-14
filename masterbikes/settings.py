@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -126,8 +127,8 @@ USE_TZ = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import os
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
@@ -136,3 +137,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # Media files (Uploaded by users)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+PAYPAL_RECEIVER_EMAIL = 'sb-6uyvd35771965@business.example.com'
+PAYPAL_TEST = True

@@ -16,9 +16,11 @@ class Producto(models.Model):
         ('goggles', 'Goggles'),
         ('otros', 'Otros'),
     ])
+    name = models.CharField(max_length=100, blank=True)
+    descripcion = models.CharField(max_length=100, blank=True)
     marca = models.CharField(max_length=100)
     modelo = models.CharField(max_length=100)
-    color = models.CharField(max_length=100, null=True, blank=True)
+    color = models.CharField(max_length=100, blank=True)
     stock = models.IntegerField()
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # Ajusta según tus necesidades
     imagen = models.ImageField(upload_to='productos/', null=True, blank=True)
@@ -45,9 +47,9 @@ class Venta(models.Model):
         return f"Venta #{self.id} - {self.producto}"
 
 class Cliente(models.Model):
-    usuario = models.CharField(max_length=255, null=True, blank=True)
-    nombre = models.CharField(max_length=255, null=True, blank=True)
-    contraseña = models.CharField(max_length=255, null=True, blank=True)
+    usuario = models.CharField(max_length=255, blank=True)
+    nombre = models.CharField(max_length=255, blank=True)
+    contraseña = models.CharField(max_length=255, blank=True)
     direccion = models.CharField(max_length=255)
     telefono = models.CharField(max_length=15)
     email = models.EmailField()
@@ -71,7 +73,7 @@ class Bicicleta(models.Model):
     marca = models.CharField(max_length=100)
     modelo = models.CharField(max_length=100)
     aro = models.IntegerField()
-    color = models.CharField(max_length=100, null=True, blank=True)
+    color = models.CharField(max_length=100, blank=True)
     imagen = models.ImageField(upload_to='bicicletas/', null=True, blank=True)
 
     def __str__(self):
@@ -106,9 +108,9 @@ class Arriendo(models.Model):
 
 class Servicio(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    bicicleta = models.CharField(max_length=100, null=True, blank=True)
-    marca = models.CharField(max_length=100, null=True, blank=True)
-    modelo = models.CharField(max_length=100, null=True, blank=True)
+    bicicleta = models.CharField(max_length=100, blank=True)
+    marca = models.CharField(max_length=100, blank=True)
+    modelo = models.CharField(max_length=100, blank=True)
     descripcion = models.TextField()
     fecha_servicio = models.DateTimeField(auto_now_add=True)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
@@ -118,3 +120,20 @@ class Servicio(models.Model):
     def __str__(self):
         return f"Servicio para {self.cliente} en {self.fecha_servicio}"
 
+
+class TransaccionPaypal(models.Model):
+    payer_id = models.CharField(max_length=250)
+    paymetn_date = models.DateTimeField()
+    payment_status = models.CharField(max_length=250)
+    quantity = models.IntegerField()
+    invoice = models.CharField(max_length=250)
+    first_name = models.CharField(max_length=250)
+    payer_status = models.CharField(max_length=250)
+    payer_email = models.CharField(max_length=250)
+    txn_id = models.CharField(max_length=250)
+    receiver_id = models.CharField(max_length=250)
+    payment_gross = models.FloatField()
+    custom = models.CharField(max_length=250)
+    
+    def _str_(self):
+        return self.custom

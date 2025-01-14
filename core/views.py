@@ -6,12 +6,16 @@ from django.contrib.auth.decorators import login_required
 from .decorators import admin_required, staff_required, customer_required
 from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
+from datetime import datetime
 
 # Create your views here.
 
 #clientes nuevos
 def inicio(request):
     return render(request, 'core/inicio.html')
+
+def checkout(request):
+    return render(request, 'core/checkout.html')
 
 def tienda(request):
     productos = Producto.objects.all()

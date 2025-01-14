@@ -9,6 +9,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', inicio, name='inicio'),
     path('tienda/', tienda, name='tienda'),
+    path('checkout/', tienda, name='checkout'),
     #crud contacto
     path('contacto/', contacto, name='contacto'),
     path('contacto_listar/', contacto_listar, name='contacto_listar'),

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MasterBikes</title>
+    <title>FerreMas</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles -->
@@ -99,8 +99,8 @@
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid navbar-center">
                 <a class="navbar-brand" href="{% url 'inicio_intra' %}">
-                    <img src="{% static 'img/masterbikes.png' %}" alt="MasterBikes Logo">
-                    <span class="logo-text">MasterBikes Intranet</span>
+                    <img src="{% static 'img/logoferremas.jpg' %}" alt="Logo" class="brand-image img-circle elevation-3" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                    <span class="logo-text">FerreMas Intranet</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -117,7 +117,7 @@
                             <a class="nav-link" href="{% url 'listar_servicios' %}">Servicio Técnico</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'mantenedor_bicicletas' %}">Mantenedor de Bicicletas</a>
+                            <a class="nav-link" href="{% url 'mantenedor_bicicletas' %}">Mantenedor</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'mantenedor_productos' %}">Mantenedor de Productos</a>
