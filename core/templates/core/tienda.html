@@ -43,10 +43,10 @@
                     <p class="card-text"><strong>Color:</strong> {{ producto.color }}</p>
                     <p class="card-text"><strong>Precio:</strong> ${{ producto.precio }}</p>
                     <p class="card-text"><strong>Stock:</strong> {{ producto.stock }}</p>
-                    <a href="#" class="btn btn-primary">Ver Detalle</a>
-                    <form action="{% url 'agregar_venta_directa' producto.id %}" method="post" class="mt-2">
+                    {% comment %} <a href="#" class="btn btn-primary">Ver Detalle</a> {% endcomment %}
+                    <form action="{% url 'agregar_al_carrito' producto.id %}" method="post" class="mt-2">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-success btn-block" onclick="return confirm('¿Estás seguro de comprar {{ producto.marca }} {{ producto.modelo }}?')">Comprar</button>
+                        <button type="submit" class="btn btn-success btn-block" onclick="return confirm('¿Añadir al carrito {{ producto.marca }} {{ producto.modelo }}?')">Agregar a carrito</button>
                     </form>
                 </div>
             </div>

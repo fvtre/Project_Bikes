@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FerreMas</title>
     <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles -->
     <style>
@@ -96,7 +97,7 @@
                 <li class="nav-item">
                     <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: inline;">
                         {% csrf_token %}
-                        <a href="#" class="nav-link btn btn-link" style="padding: 0; color: white; text-decoration: none;" onclick="document.getElementById('logout-form').submit();">
+                        <a href="#" class="nav-link btn btn-link" onclick="document.getElementById('logout-form').submit();">
                             Salir
                         </a>
                     </form>
@@ -107,10 +108,15 @@
                 </li>
             {% endif %}
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
-                    </form>
+                    {% if user.is_authenticated %}
+                    <h6 class="nav-link">¡Hola, {{ cliente.nombre }}!</h6>
+                    <a class="nav-link" href="{% url 'carrito' %}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge badge-pill badge-danger">
+                            {{ cantidad_productos }}
+                        </span>
+                    </a>
+                    {% endif %}
                 </div>
             </div>
         </nav>

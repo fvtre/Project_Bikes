@@ -8,25 +8,28 @@ from datetime import timedelta
 # Create your models here.
 
 class Producto(models.Model):
-    categoria = models.CharField(max_length=100, choices=[
-        ('bicicleta', 'Bicicleta'),
-        ('casco', 'Casco'),
-        ('guantes', 'Guantes'),
-        ('ropa', 'Ropa'),
-        ('goggles', 'Goggles'),
-        ('otros', 'Otros'),
-    ])
-    name = models.CharField(max_length=100, blank=True)
-    descripcion = models.CharField(max_length=100, blank=True)
+    categoria = models.CharField(
+        max_length=100,
+        choices=[
+            ('bicicleta', 'Bicicleta'),
+            ('casco', 'Casco'),
+            ('guantes', 'Guantes'),
+            ('ropa', 'Ropa'),
+            ('goggles', 'Goggles'),
+            ('otros', 'Otros'),
+        ]
+    )
+    name = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=100)
     marca = models.CharField(max_length=100)
     modelo = models.CharField(max_length=100)
-    color = models.CharField(max_length=100, blank=True)
+    color = models.CharField(max_length=100)
     stock = models.IntegerField()
-    precio = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # Ajusta según tus necesidades
+    precio = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     imagen = models.ImageField(upload_to='productos/', null=True, blank=True)
 
     def __str__(self):
-        return f"{self.marca} {self.modelo}"
+        return self.name
 
 class Venta(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
@@ -119,6 +122,16 @@ class Servicio(models.Model):
 
     def __str__(self):
         return f"Servicio para {self.cliente} en {self.fecha_servicio}"
+
+
+class CarritoItem(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
+    fecha_agregado = models.DateTimeField(auto_now_add=True)
+
+    def subtotal(self):
+        return self.producto.precio * self.cantidad
 
 
 class TransaccionPaypal(models.Model):

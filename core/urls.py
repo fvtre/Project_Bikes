@@ -1,12 +1,16 @@
 from django.contrib import admin
 from django.urls import path
 from .views import *
+from .models import Producto
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
+    path('carrito/', ver_carrito, name='carrito'),
+    path('agregar_al_carrito/<int:producto_id>/', agregar_al_carrito, name='agregar_al_carrito'),
+    path('eliminar/<int:item_id>/', eliminar_del_carrito, name='eliminar_del_carrito'),
     path('', inicio, name='inicio'),
     path('tienda/', tienda, name='tienda'),
     path('checkout/', tienda, name='checkout'),

@@ -7,12 +7,55 @@ from .decorators import admin_required, staff_required, customer_required
 from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
 from datetime import datetime
+from django.db.models import Sum
 
 # Create your views here.
 
+@login_required
+def ver_carrito(request):
+    items = CarritoItem.objects.filter(usuario=request.user)
+    total = sum(item.producto.precio * item.cantidad for item in items)
+    for item in items:
+        item.subtotal = item.producto.precio * item.cantidad  # Calcula subtotales para la plantilla
+    return render(request, 'core/carrito.html', {'items': items, 'total': total})
+
+@login_required
+def agregar_al_carrito(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    item, created = CarritoItem.objects.get_or_create(
+        usuario=request.user,
+        producto=producto,
+        defaults={'cantidad': 1}
+    )
+    if not created:
+        item.cantidad += 1
+        item.save()
+    return redirect('carrito')  # Use the URL name, not the template path
+
+@login_required
+def eliminar_del_carrito(request, item_id):
+    item = get_object_or_404(CarritoItem, id=item_id, usuario=request.user)
+    item.delete()
+    return redirect('carrito')  # Use the URL name, not the template path
+
+def contar_items(request):
+    if request.user.is_authenticated:
+        cantidad_productos = CarritoItem.objects.filter(usuario=request.user).aggregate(Sum('cantidad'))['cantidad__sum'] or 0
+    else:
+        cantidad_productos = 0
+    return cantidad_productos
+
+
 #clientes nuevos
 def inicio(request):
-    return render(request, 'core/inicio.html')
+    if request.user.is_authenticated:
+        # Obtener el cliente asociado al usuario autenticado
+        cliente = Cliente.objects.get(usuario=request.user.username)
+    else:
+        cliente = None
+
+    return render(request, 'core/inicio.html', {'cliente': cliente})
+
 
 def checkout(request):
     return render(request, 'core/checkout.html')

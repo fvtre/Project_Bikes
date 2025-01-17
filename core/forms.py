@@ -1,11 +1,13 @@
 from django import forms
 from .models import *
+from .models import Producto
+
 
 
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ['categoria', 'marca', 'modelo', 'color', 'stock', 'precio', 'imagen']
+        fields = ['categoria', 'name', 'descripcion', 'marca', 'modelo', 'color', 'stock', 'precio', 'imagen']
         
 class BicicletaForm(forms.ModelForm):
     class Meta:

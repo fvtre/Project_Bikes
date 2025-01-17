@@ -11,3 +11,5 @@ admin.site.register(Cliente)
 admin.site.register(Bicicleta)
 admin.site.register(Arriendo)
 admin.site.register(TransaccionPaypal)
+admin.site.register(CarritoItem)
+
