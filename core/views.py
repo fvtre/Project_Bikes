@@ -63,6 +63,8 @@ def inicio(request):
 
     # Filtramos los productos destacados
     productos_destacados = Producto.objects.filter(destacado=True)
+    # Verificamos si se están obteniendo productos
+    print(f"Productos destacados encontrados: {productos_destacados.count()}")
 
     # Renderizamos la plantilla con cliente y productos destacados en el contexto
     return render(request, 'core/inicio.html', {

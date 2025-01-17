@@ -14,9 +14,9 @@
         <!-- Indicadores -->
         <div class="carousel-indicators">
             {% for producto in productos_destacados %}
-            <button type="button" data-bs-target="#carouselProductosDestacados" data-bs-slide-to="{{ forloop.counter0 }}" 
-                    class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" 
-                    aria-label="Slide {{ forloop.counter }}"></button>
+                <button type="button" data-bs-target="#carouselProductosDestacados" data-bs-slide-to="{{ forloop.counter0 }}" 
+                        class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" 
+                        aria-label="Slide {{ forloop.counter }}"></button>
             {% endfor %}
         </div>
 
@@ -27,11 +27,11 @@
                 <div class="row justify-content-center align-items-center">
                     <div class="col-md-6 text-center">
                         {% if producto.imagen %}
-                        <img src="{{ producto.imagen.url }}" class="d-block w-100 producto-img" alt="{{ producto.name }}">
+                            <img src="{{ producto.imagen.url }}" class="d-block w-100 producto-img" alt="{{ producto.name }}">
                         {% else %}
-                        <div class="no-image-placeholder">
-                            <span>Sin Imagen</span>
-                        </div>
+                            <div class="no-image-placeholder">
+                                <span>Sin Imagen</span>
+                            </div>
                         {% endif %}
                         <div class="offer-badge">
                             <span>¡Producto destacado!</span>
@@ -56,7 +56,10 @@
             <span class="visually-hidden">Siguiente</span>
         </button>
     </div>
-    {% endif %}
+{% else %}
+    <p>No hay productos destacados disponibles.</p>
+{% endif %}
+
 
     <!-- Secciones -->
     <div class="sections">
