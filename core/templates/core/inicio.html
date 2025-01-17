@@ -7,11 +7,58 @@
         <p>Estamos encantados de tenerte aquí. Explora nuestra amplia gama de herramientas y accesorios de alta calidad.</p>
         <a href="{% url 'tienda' %}" class="btn btn-primary">Visita nuestra tienda</a>
     </div>
-    {% if mensaje %}
-    <div class="alert alert-success" role="alert">
-        {{ mensaje }}
+
+    <!-- Carrusel de productos destacados -->
+    {% if productos_destacados %}
+    <div id="carouselProductosDestacados" class="carousel slide mt-4" data-bs-ride="carousel">
+        <!-- Indicadores -->
+        <div class="carousel-indicators">
+            {% for producto in productos_destacados %}
+            <button type="button" data-bs-target="#carouselProductosDestacados" data-bs-slide-to="{{ forloop.counter0 }}" 
+                    class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" 
+                    aria-label="Slide {{ forloop.counter }}"></button>
+            {% endfor %}
+        </div>
+
+        <!-- Contenido del carrusel -->
+        <div class="carousel-inner">
+            {% for producto in productos_destacados %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-md-6 text-center">
+                        {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" class="d-block w-100 producto-img" alt="{{ producto.name }}">
+                        {% else %}
+                        <div class="no-image-placeholder">
+                            <span>Sin Imagen</span>
+                        </div>
+                        {% endif %}
+                        <div class="offer-badge">
+                            <span>¡Producto destacado!</span>
+                        </div>
+                        <h5 class="mt-3">{{ producto.name }}</h5>
+                        <p>{{ producto.descripcion }}</p>
+                        <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+                        <a href="{% url 'tienda' %}" class="btn btn-success">Ver Producto</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Controles de navegación -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselProductosDestacados" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselProductosDestacados" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
     </div>
     {% endif %}
+
+    <!-- Secciones -->
     <div class="sections">
         <div class="section">
             <h2>Herramientas de Alta Calidad</h2>
@@ -24,7 +71,6 @@
         <div class="section">
             <h2>Sistema de Arriendos</h2>
         </div>
-        
     </div>
 </div>
 
@@ -81,9 +127,46 @@
         font-size: 2em;
     }
 
-    .section p {
-        color: #333;
-        font-size: 1.1em;
+    /* Estilos del carrusel */
+    .producto-img {
+        max-height: 300px;
+        object-fit: contain;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .no-image-placeholder {
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #e0e0e0;
+        color: #666;
+        border-radius: 10px;
+        font-size: 1.2em;
+    }
+
+    .carousel-indicators button {
+        background-color: #003366;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        filter: invert(100%);
+    }
+
+    /* Estilos del mensaje destacado */
+    .offer-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #ff5722;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.9em;
+        font-weight: bold;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 </style>
 {% endblock %}

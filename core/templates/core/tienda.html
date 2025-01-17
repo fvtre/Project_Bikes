@@ -2,9 +2,9 @@
 {% block content %}
 
 <div class="container">
-    <div class="welcome-message">
-        <h1>Tienda FerreMas</h1>
-        <p>Estamos encantados de tenerte aquí. Explora nuestra amplia gama de herramientas y accesorios de alta calidad.</p>
+    <div class="welcome-message mb-4">
+        <h1>Productos</h1>
+        <p>Lo mejor del mundo Ferretero en tus manos.</p>
     </div>
 </div>
 
@@ -27,7 +27,7 @@
 </div>
 {% endif %}
 
-<div class="container">
+<div class="container mt-5"> <!-- Espaciado adicional agregado -->
     <div class="row">
         {% for producto in productos %}
         <div class="col-md-4 mb-4">
@@ -79,16 +79,8 @@
         font-size: 1.2em;
     }
 
-    .welcome-message .btn-primary {
-        background-color: #003366;
-        border-color: #003366;
-        margin-top: 15px;
-        padding: 10px 20px;
-    }
-
-    .welcome-message .btn-primary:hover {
-        background-color: #00509e;
-        border-color: #00509e;
+    .welcome-message.mb-4 {
+        margin-bottom: 30px; /* Espaciado adicional */
     }
 
     .sections {

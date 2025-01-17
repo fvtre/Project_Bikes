@@ -11,7 +11,7 @@ class Producto(models.Model):
     categoria = models.CharField(
         max_length=100,
         choices=[
-            ('bicicleta', 'Bicicleta'),
+            ('seguridad', 'Seguridad'),
             ('casco', 'Casco'),
             ('guantes', 'Guantes'),
             ('ropa', 'Ropa'),
@@ -26,6 +26,7 @@ class Producto(models.Model):
     color = models.CharField(max_length=100)
     stock = models.IntegerField()
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    destacado = models.BooleanField(default=False)
     imagen = models.ImageField(upload_to='productos/', null=True, blank=True)
 
     def __str__(self):

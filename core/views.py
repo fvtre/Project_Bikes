@@ -47,14 +47,28 @@ def contar_items(request):
 
 
 #clientes nuevos
-def inicio(request):
-    if request.user.is_authenticated:
-        # Obtener el cliente asociado al usuario autenticado
-        cliente = Cliente.objects.get(usuario=request.user.username)
-    else:
-        cliente = None
 
-    return render(request, 'core/inicio.html', {'cliente': cliente})
+def inicio(request):
+    # Inicializamos cliente como None
+    cliente = None
+
+    # Verificamos si el usuario está autenticado
+    if request.user.is_authenticated:
+        try:
+            # Obtenemos el cliente asociado al usuario
+            cliente = Cliente.objects.get(usuario=request.user.username)
+        except Cliente.DoesNotExist:
+            # Maneja el caso en que el cliente no existe
+            cliente = None
+
+    # Filtramos los productos destacados
+    productos_destacados = Producto.objects.filter(destacado=True)
+
+    # Renderizamos la plantilla con cliente y productos destacados en el contexto
+    return render(request, 'core/inicio.html', {
+        'cliente': cliente,
+        'productos_destacados': productos_destacados,
+    })
 
 
 def checkout(request):
