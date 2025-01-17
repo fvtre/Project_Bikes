@@ -1,5 +1,6 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from paypal.standard.ipn import urls as paypal_urls
 from .views import *
 from .models import Producto
 from django.conf import settings
@@ -8,6 +9,11 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
+    path('paypal/', include('paypal.standard.ipn.urls')),  # Esto agrega las rutas de PayPal IPN
+    path('pago_paypal/', pago_paypal, name='pago_paypal'),
+    path('pago_exitoso/', pago_exitoso, name='pago_exitoso'),
+    path('pago_cancelado/', pago_cancelado, name='pago_cancelado'),
+    path('pago_transferencia/', pago_transferencia, name='pago_transferencia'),
     path('carrito/', ver_carrito, name='carrito'),
     path('agregar_al_carrito/<int:producto_id>/', agregar_al_carrito, name='agregar_al_carrito'),
     path('eliminar/<int:item_id>/', eliminar_del_carrito, name='eliminar_del_carrito'),

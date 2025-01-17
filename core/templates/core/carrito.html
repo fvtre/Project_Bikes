@@ -3,11 +3,10 @@
 {% block content %}
 <style>
 .img-thumbnail {
-
     width: 150px;
     height: 150px;
     object-fit: cover; /* Recorta la imagen para que llene el contenedor */
-    border-radius: 8px; /* Opcional: redonde
+    border-radius: 8px; /* Opcional: redonde */
 }
 </style>
 
@@ -34,9 +33,7 @@
                         <a href="{% url 'eliminar_del_carrito' item.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este producto del carrito?')">Eliminar</a>
                         <a href="{% url 'tienda' %}" class="btn btn-secondary btn-sm">Seguir Comprando</a>
                     </div>
-                    
                 </div>
-                
             </div>
             {% endfor %}
         </div>
@@ -44,7 +41,7 @@
 
     <div class="mt-4 text-center">
         <h4>Total: ${{ total }}</h4>
-        <a href="#" class="btn btn-success btn-lg">Pagar</a>
+        <a href="{% url 'pago_paypal' %}" class="btn btn-success btn-lg">Pagar</a>
     </div>
 {% else %}
     <div class="alert alert-info text-center">

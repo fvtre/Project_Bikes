@@ -1,0 +1,57 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<h1>Pago con PayPal</h1>
+<p>Por favor, revisa los detalles y haz clic en el botón para proceder al pago.</p>
+<style>
+    .img-thumbnail {
+        width: 150px;
+        height: 150px;
+        object-fit: cover; /* Recorta la imagen para que llene el contenedor */
+        border-radius: 8px; /* Opcional: redonde */
+    }
+    </style>
+    
+    <h2>Tu Carrito de Compras</h2>
+    
+    {% if items %}
+        <div class="container">
+            <div class="row">
+                {% for item in items %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 text-center d-flex flex-column justify-content-between">
+                        <div class="text-center">
+                            <img src="{{ item.producto.imagen.url }}" class="card-img-top img-thumbnail mx-auto" alt="{{ item.producto.marca }} {{ item.producto.modelo }}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.producto.marca }} {{ item.producto.modelo }}</h5>
+                            <p class="card-text">
+                                <strong>Precio Unitario:</strong> ${{ item.producto.precio }}<br>
+                                <strong>Cantidad:</strong> {{ item.cantidad }}<br>
+                                <strong>Subtotal:</strong> ${{ item.subtotal }}
+                            </p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-center gap-2">
+                            <a href="{% url 'eliminar_del_carrito' item.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este producto del carrito?')">Eliminar</a>
+                            <a href="{% url 'tienda' %}" class="btn btn-secondary btn-sm">Seguir Comprando</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+    {% else %}
+        <div class="alert alert-info text-center">
+            <p>Tu carrito está vacío.</p>
+            <a href="{% url 'tienda' %}" class="btn btn-primary">Seguir Comprando</a>
+        </div>
+    {% endif %}
+
+<div class="text-center">
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary btn-lg">Pagar con PayPal</button>
+    </form>
+</div>
+{% endblock %}

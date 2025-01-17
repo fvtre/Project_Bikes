@@ -1,0 +1,7 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<h2>¡Pago realizado con éxito!</h2>
+<p>Gracias por tu compra. Recibirás un correo electrónico con los detalles del pedido.</p>
+<a href="{% url 'tienda' %}" class="btn btn-primary">Volver a la tienda</a>
+{% endblock %}

@@ -8,8 +8,51 @@ from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
 from datetime import datetime
 from django.db.models import Sum
+from paypal.standard.forms import PayPalPaymentsForm
+from django.conf import settings
+from django.urls import reverse
+from django.shortcuts import redirect
+
 
 # Create your views here.
+
+def pago_paypal(request):
+    items = CarritoItem.objects.filter(usuario=request.user)
+    total = sum(item.producto.precio * item.cantidad for item in items)
+    for item in items:
+        item.subtotal = item.producto.precio * item.cantidad
+    # Datos para PayPal
+    paypal_dict = {
+        "business": "tu_email_de_paypal@example.com",
+        "amount": "100.00",  # Cambia esto por el total del carrito
+        "item_name": "Compra en Project Bikes",
+        "invoice": "12345",  # Genera un número único para cada transacción
+        "currency_code": "USD",
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return_url": request.build_absolute_uri(reverse('pago_exitoso')),
+        "cancel_return": request.build_absolute_uri(reverse('pago_cancelado')),
+    }
+    
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    return render(request, "core/pago_paypal.html", {"form": form, 'items': items, 'total': total})
+
+
+def pago_exitoso(request):
+    return render(request, 'core/pago_exitoso.html')
+
+def pago_cancelado(request):
+    return render(request, 'core/pago_cancelado.html')
+
+def pago_transferencia(request):
+    # Simula datos de ejemplo de transferencia bancaria
+    datos_transferencia = {
+        'banco': 'Banco Ejemplo',
+        'numero_cuenta': '1234567890',
+        'titular': 'Nombre del Titular',
+        'referencia': 'TuReferenciaUnica',  # Podrías generar esto dinámicamente
+        'total': request.session.get('total', 0),  # Obtén el total de la sesión o pásalo desde el carrito
+    }
+    return render(request, 'core/pago_transferencia.html', datos_transferencia)
 
 @login_required
 def ver_carrito(request):
