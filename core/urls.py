@@ -9,6 +9,7 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
+    path('actualizar_carrito/', actualizar_carrito, name='actualizar_carrito'),
     path('paypal/', include('paypal.standard.ipn.urls')),  # Esto agrega las rutas de PayPal IPN
     path('pago_paypal/', pago_paypal, name='pago_paypal'),
     path('pago_exitoso/', pago_exitoso, name='pago_exitoso'),

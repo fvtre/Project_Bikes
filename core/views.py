@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
 from django.contrib import messages
@@ -13,9 +13,47 @@ from django.conf import settings
 from django.urls import reverse
 from django.shortcuts import redirect
 import uuid
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 # Create your views here.
+
+@csrf_exempt
+def actualizar_carrito(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+
+        # Extraer información del pedido desde los datos enviados
+        order_id = data.get('orderID')
+        payment_details = data.get('details')
+
+        if not order_id or not payment_details:
+            return JsonResponse({"error": "Datos incompletos"}, status=400)
+
+        # Procesar los elementos del carrito
+        items = CarritoItem.objects.filter(usuario=request.user)
+        for item in items:
+            producto = item.producto
+
+            # Verificar stock
+            if producto.stock >= item.cantidad:
+                producto.stock -= item.cantidad
+                producto.save()
+            else:
+                return JsonResponse({"error": f"Stock insuficiente para {producto.nombre}"}, status=400)
+
+        # Vaciar el carrito después del pago
+        items.delete()
+
+        # Opcional: guardar los detalles del pago en una base de datos de historial
+        # Payment.objects.create(user=request.user, order_id=order_id, amount=total, ...)
+
+        return JsonResponse({"success": "Pago procesado correctamente"})
+
+    return JsonResponse({"error": "Método no permitido"}, status=405)
 
 def pago_paypal(request):
     items = CarritoItem.objects.filter(usuario=request.user)
@@ -26,9 +64,9 @@ def pago_paypal(request):
     paypal_dict = {
         "business": "tu_email_de_paypal@example.com",
         "amount": "100.00",  # Cambia esto por el total del carrito
-        "item_name": "Compra en Project Bikes",
+        "item_name": "Compra en FerreMas",
         "invoice": "12345",  # Genera un número único para cada transacción
-        "currency_code": "USD",
+        "currency_code": "CLP",
         "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
         "return_url": request.build_absolute_uri(reverse('pago_exitoso')),
         "cancel_return": request.build_absolute_uri(reverse('pago_cancelado')),
@@ -39,7 +77,26 @@ def pago_paypal(request):
 
 
 def pago_exitoso(request):
-    return render(request, 'core/pago_exitoso.html')
+    if request.method == "GET":
+        items = CarritoItem.objects.filter(usuario=request.user)
+        
+        for item in items:
+            producto = item.producto
+            
+            # Verificar si hay suficiente stock
+            if producto.stock >= item.cantidad:
+                # Descontar el stock
+                producto.stock -= item.cantidad
+                producto.save()
+            else:
+                # Si no hay suficiente stock, puedes manejarlo con un mensaje
+                return render(request, "core/error_stock.html", {"producto": producto})
+
+        # Eliminar los items del carrito
+        items.delete()
+
+        # Redirigir a una página de éxito
+        return render(request, "core/pago_exitoso.html")
 
 def pago_cancelado(request):
     return render(request, 'core/pago_cancelado.html')
@@ -61,19 +118,7 @@ def ver_carrito(request):
     total = sum(item.producto.precio * item.cantidad for item in items)
     for item in items:
         item.subtotal = item.producto.precio * item.cantidad  # Calcula subtotales para la plantilla
-    # Datos para PayPal
-    paypal_dict = {
-        "business": "tu_email_de_paypal@example.com",
-        "amount": str(total),  # Cambia esto por el total del carrito
-        "item_name": "Compra en FerreMas",
-        "invoice": f"{uuid.uuid4()}",  # Genera un número único para cada transacción
-        "currency_code": "CLP",
-        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-        "return_url": request.build_absolute_uri(reverse('pago_exitoso')),
-        "cancel_return": request.build_absolute_uri(reverse('pago_cancelado')),
-    }
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, 'core/carrito.html', {"form": form, 'items': items, 'total': total })
+    return render(request, 'core/carrito.html', {'items': items, 'total': total })
 
 
 @login_required

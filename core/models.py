@@ -24,7 +24,7 @@ class Producto(models.Model):
     marca = models.CharField(max_length=100)
     modelo = models.CharField(max_length=100)
     color = models.CharField(max_length=100)
-    stock = models.IntegerField()
+    stock = models.PositiveIntegerField()
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     destacado = models.BooleanField(default=False)
     imagen = models.ImageField(upload_to='productos/', null=True, blank=True)

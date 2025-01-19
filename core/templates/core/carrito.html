@@ -43,11 +43,9 @@
         <h4>Total: ${{ total }}</h4>
     </div>
 
-    <div class="text-center">
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary btn-lg">Pagar con PayPal</button>
-        </form>
+
+    <div class="mt-4 text-center">
+        <a href="{% url 'pago_paypal' %}" class="btn btn-success btn-lg">Pagar con paypal</a>
     </div>
 
     <div class="mt-4 text-center">
