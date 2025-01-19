@@ -39,9 +39,19 @@
         </div>
     </div>
 
-    <div class="mt-4 text-center">
+    <div class="text-center">
         <h4>Total: ${{ total }}</h4>
-        <a href="{% url 'pago_paypal' %}" class="btn btn-success btn-lg">Pagar</a>
+    </div>
+
+    <div class="text-center">
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-lg">Pagar con PayPal</button>
+        </form>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a href="{% url 'pago_transferencia' %}" class="btn btn-success btn-lg">Pagar con transferencia</a>
     </div>
 {% else %}
     <div class="alert alert-info text-center">

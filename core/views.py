@@ -12,6 +12,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 from django.conf import settings
 from django.urls import reverse
 from django.shortcuts import redirect
+import uuid
 
 
 # Create your views here.
@@ -60,7 +61,20 @@ def ver_carrito(request):
     total = sum(item.producto.precio * item.cantidad for item in items)
     for item in items:
         item.subtotal = item.producto.precio * item.cantidad  # Calcula subtotales para la plantilla
-    return render(request, 'core/carrito.html', {'items': items, 'total': total})
+    # Datos para PayPal
+    paypal_dict = {
+        "business": "tu_email_de_paypal@example.com",
+        "amount": str(total),  # Cambia esto por el total del carrito
+        "item_name": "Compra en FerreMas",
+        "invoice": f"{uuid.uuid4()}",  # Genera un número único para cada transacción
+        "currency_code": "CLP",
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return_url": request.build_absolute_uri(reverse('pago_exitoso')),
+        "cancel_return": request.build_absolute_uri(reverse('pago_cancelado')),
+    }
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    return render(request, 'core/carrito.html', {"form": form, 'items': items, 'total': total })
+
 
 @login_required
 def agregar_al_carrito(request, producto_id):
