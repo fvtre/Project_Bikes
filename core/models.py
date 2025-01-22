@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from datetime import timedelta
+from django.utils.crypto import get_random_string
 
 # Create your models here.
 
@@ -151,3 +152,54 @@ class TransaccionPaypal(models.Model):
     
     def _str_(self):
         return self.custom
+    
+
+class Boleta(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    numero_boleta = models.CharField(max_length=20, unique=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+
+    def __str__(self):
+        return f"Boleta #{self.numero_boleta} - Usuario: {self.usuario.username}"
+
+    def calcular_total(self):
+        """Calcula el total de la boleta sumando los subtotales de los BoletaItems."""
+        total = sum(item.subtotal() for item in self.boletaitem_set.all())
+        self.total = total
+        self.save()
+
+
+class BoletaItem(models.Model):
+    boleta = models.ForeignKey(Boleta, on_delete=models.CASCADE, related_name='items')
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
+
+    def subtotal(self):
+        """Calcula el subtotal para este producto."""
+        return self.producto.precio * self.cantidad
+
+    def __str__(self):
+        return f"{self.producto.nombre} - {self.cantidad} unidades"
+    
+
+def generar_boleta(usuario, items_carrito):
+    # Crear una nueva boleta
+    numero_boleta = get_random_string(length=10)  # Genera un número de boleta único
+    boleta = Boleta.objects.create(usuario=usuario, numero_boleta=numero_boleta)
+
+    # Agregar los items del carrito a la boleta
+    for item in items_carrito:
+        BoletaItem.objects.create(
+            boleta=boleta,
+            producto=item.producto,
+            cantidad=item.cantidad
+        )
+
+    # Calcular el total de la boleta
+    boleta.calcular_total()
+
+    # Vaciar el carrito después de generar la boleta
+    items_carrito.delete()
+
+    return boleta

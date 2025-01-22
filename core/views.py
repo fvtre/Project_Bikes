@@ -16,10 +16,33 @@ import uuid
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.crypto import get_random_string
+from .models import Boleta, BoletaItem
 
 
 
 # Create your views here.
+
+def generar_boleta(usuario, items_carrito):
+    # Crear una nueva boleta
+    numero_boleta = get_random_string(length=10)  # Genera un número de boleta único
+    boleta = Boleta.objects.create(usuario=usuario, numero_boleta=numero_boleta)
+
+    # Agregar los items del carrito a la boleta
+    for item in items_carrito:
+        BoletaItem.objects.create(
+            boleta=boleta,
+            producto=item.producto,
+            cantidad=item.cantidad
+        )
+
+    # Calcular el total de la boleta
+    boleta.calcular_total()
+
+    # Vaciar el carrito después de generar la boleta
+    items_carrito.delete()
+
+    return boleta
 
 @csrf_exempt
 def actualizar_carrito(request):
@@ -80,24 +103,44 @@ def pago_exitoso(request):
     if request.method == "GET":
         items = CarritoItem.objects.filter(usuario=request.user)
         
+        if not items.exists():
+            return render(request, "core/error_carrito_vacio.html")  # Maneja un carrito vacío
+
+        # Generar una boleta
+        numero_boleta = get_random_string(length=10)  # Genera un número único para la boleta
+        boleta = Boleta.objects.create(
+            usuario=request.user,
+            numero_boleta=numero_boleta
+        )
+        
         for item in items:
             producto = item.producto
-            
+
             # Verificar si hay suficiente stock
             if producto.stock >= item.cantidad:
                 # Descontar el stock
                 producto.stock -= item.cantidad
                 producto.save()
+
+                # Agregar el producto a la boleta
+                BoletaItem.objects.create(
+                    boleta=boleta,
+                    producto=producto,
+                    cantidad=item.cantidad
+                )
             else:
-                # Si no hay suficiente stock, puedes manejarlo con un mensaje
+                # Si no hay suficiente stock, manejar el error
                 return render(request, "core/error_stock.html", {"producto": producto})
+
+        # Calcular el total de la boleta
+        boleta.calcular_total()
 
         # Eliminar los items del carrito
         items.delete()
 
-        # Redirigir a una página de éxito
-        return render(request, "core/pago_exitoso.html")
-
+        # Redirigir a una página de éxito con la información de la boleta
+        return render(request, "core/pago_exitoso.html", {"boleta": boleta})
+    
 def pago_cancelado(request):
     return render(request, 'core/pago_cancelado.html')
 

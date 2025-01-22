@@ -1,7 +1,21 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-<h2>¡Pago realizado con éxito!</h2>
-<p>Gracias por tu compra. Recibirás un correo electrónico con los detalles del pedido.</p>
-<a href="{% url 'tienda' %}" class="btn btn-primary">Volver a la tienda</a>
+<h2>¡Pago Exitoso!</h2>
+<p>Gracias por tu compra. Aquí está tu boleta:</p>
+
+<h3>Boleta #{{ boleta.numero_boleta }}</h3>
+<p>Usuario: {{ boleta.usuario.username }}</p>
+<p>Fecha: {{ boleta.fecha_creacion }}</p>
+
+<h4>Productos Comprados</h4>
+<ul>
+    {% for item in boleta.items.all %}
+    <li>{{ item.producto.nombre }} - {{ item.cantidad }} x ${{ item.producto.precio }} = ${{ item.subtotal }}</li>
+    {% endfor %}
+</ul>
+
+<h4>Total: ${{ boleta.total }}</h4>
+<a href="{% url 'inicio' %}" class="btn btn-primary">Volver al inicio</a>
+
 {% endblock %}
