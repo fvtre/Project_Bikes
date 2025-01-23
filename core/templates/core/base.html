@@ -94,19 +94,22 @@
                             <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
                         </li>
                         {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: inline;">
-                        {% csrf_token %}
-                        <a href="#" class="nav-link btn btn-link" onclick="document.getElementById('logout-form').submit();">
-                            Salir
-                        </a>
-                    </form>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
-                </li>
-            {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'mis_pedidos' %}">Mis Pedidos</a>
+                            </li>
+                            <li class="nav-item">
+                                <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <a href="#" class="nav-link btn btn-link" onclick="document.getElementById('logout-form').submit();">
+                                        Salir
+                                    </a>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                            </li>
+                        {% endif %}
                     </ul>
                     {% if user.is_authenticated %}
                     <h6 class="nav-link">¡Hola, {{ cliente.nombre }}!</h6>

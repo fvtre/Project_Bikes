@@ -18,6 +18,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.crypto import get_random_string
 from .models import Boleta, BoletaItem
+from .forms import TipoEntregaForm
+from .models import Notificacion
 
 
 
@@ -44,6 +46,13 @@ def generar_boleta(usuario, items_carrito):
 
     return boleta
 
+
+@staff_required
+def listar_ventas_boletas(request):
+    # Obtenemos todas las boletas con sus ventas
+    boletas = Boleta.objects.prefetch_related('items')  # Prefetch de los items relacionados
+    return render(request, 'core/ventas_listar.html', {'boletas': boletas})
+
 @csrf_exempt
 def actualizar_carrito(request):
     if request.method == "POST":
@@ -69,7 +78,7 @@ def actualizar_carrito(request):
                 return JsonResponse({"error": f"Stock insuficiente para {producto.nombre}"}, status=400)
 
         # Vaciar el carrito después del pago
-        items.delete()
+       
 
         # Opcional: guardar los detalles del pago en una base de datos de historial
         # Payment.objects.create(user=request.user, order_id=order_id, amount=total, ...)
@@ -98,38 +107,38 @@ def pago_paypal(request):
     form = PayPalPaymentsForm(initial=paypal_dict)
     return render(request, "core/pago_paypal.html", {"form": form, 'items': items, 'total': total})
 
-
 def pago_exitoso(request):
     if request.method == "GET":
         items = CarritoItem.objects.filter(usuario=request.user)
-        
-        if not items.exists():
-            return render(request, "core/error_carrito_vacio.html")  # Maneja un carrito vacío
 
-        # Generar una boleta
-        numero_boleta = get_random_string(length=10)  # Genera un número único para la boleta
+        if not items.exists():
+            return render(request, "core/error_carrito_vacio.html")  # Manejo de carrito vacío
+
+        # Crear la boleta
+        numero_boleta = get_random_string(length=10)  # Generar un número único para la boleta
         boleta = Boleta.objects.create(
             usuario=request.user,
             numero_boleta=numero_boleta
         )
-        
+
+        # Agregar los items del carrito a la boleta
         for item in items:
             producto = item.producto
 
-            # Verificar si hay suficiente stock
+            # Verificar el stock
             if producto.stock >= item.cantidad:
                 # Descontar el stock
                 producto.stock -= item.cantidad
                 producto.save()
 
-                # Agregar el producto a la boleta
+                # Crear el BoletaItem
                 BoletaItem.objects.create(
                     boleta=boleta,
                     producto=producto,
                     cantidad=item.cantidad
                 )
             else:
-                # Si no hay suficiente stock, manejar el error
+                # Si no hay suficiente stock
                 return render(request, "core/error_stock.html", {"producto": producto})
 
         # Calcular el total de la boleta
@@ -138,8 +147,39 @@ def pago_exitoso(request):
         # Eliminar los items del carrito
         items.delete()
 
-        # Redirigir a una página de éxito con la información de la boleta
-        return render(request, "core/pago_exitoso.html", {"boleta": boleta})
+        # Si es un GET, renderizar la página con el formulario
+        form = TipoEntregaForm()
+        return render(request, "core/pago_exitoso.html", {"boleta": boleta, "form": form})
+
+    elif request.method == "POST":
+        # Procesar el formulario
+        form = TipoEntregaForm(request.POST)
+        if form.is_valid():
+            tipo_entrega = form.cleaned_data["tipo_entrega"]
+            direccion_envio = form.cleaned_data["direccion_envio"] if tipo_entrega == "envio" else None
+
+            # Recuperar la boleta usando el número enviado desde el formulario
+            numero_boleta = request.POST.get("numero_boleta")
+            try:
+                boleta = Boleta.objects.get(numero_boleta=numero_boleta, usuario=request.user)
+            except Boleta.DoesNotExist:
+                return render(request, "core/error.html", {"mensaje": "Boleta no encontrada."})
+
+            # Crear la notificación
+            Notificacion.objects.create(
+                boleta=boleta,
+                tipo_entrega=tipo_entrega,
+                direccion_envio=direccion_envio,
+                nombre_comprador=request.user.username,
+                apellido_comprador=request.user.last_name
+            )
+
+            # Redirigir al inicio o a otra página
+            return redirect("inicio")
+
+        # Si el formulario no es válido, recargar la página con los errores
+        return render(request, "core/pago_exitoso.html", {"boleta": boleta, "form": form})
+
     
 def pago_cancelado(request):
     return render(request, 'core/pago_cancelado.html')
@@ -154,6 +194,16 @@ def pago_transferencia(request):
         'total': request.session.get('total', 0),  # Obtén el total de la sesión o pásalo desde el carrito
     }
     return render(request, 'core/pago_transferencia.html', datos_transferencia)
+
+
+@login_required
+def mis_pedidos(request):
+    # Filtrar notificaciones del cliente logueado por nombre y apellido
+    notificaciones = Notificacion.objects.filter(
+        nombre_comprador=request.user.first_name,
+        apellido_comprador=request.user.last_name
+    )
+    return render(request, 'core/mis_pedidos.html', {'notificaciones': notificaciones})
 
 @login_required
 def ver_carrito(request):

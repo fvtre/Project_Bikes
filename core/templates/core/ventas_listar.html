@@ -1,49 +1,59 @@
 {% extends "core/base_intranet.html" %}
-{% block content %}
-<div class="container mt-5">
-    <h2>Listado de Ventas</h2>
-    <a href="{% url 'ventas_agregar' %}" class="btn btn-success mb-3">Agregar Nueva Venta</a>
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>Producto</th>
-                <th>Fecha de Venta</th>
-                <th>Cantidad</th>
-                <th>Precio Unitario</th>
-                <th>Total</th>
-                <th>Cliente</th>
-                <th>Dirección de Envío</th>
-                <th>Teléfono de Contacto</th>
-                <th>Email de Contacto</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for venta in ventas %}
-            <tr>
-                <td>{{ venta.id }}</td>
-                <td>{{ venta.producto }}</td>
-                <td>{{ venta.fecha_venta }}</td>
-                <td>{{ venta.cantidad }}</td>
-                <td>{{ venta.precio_unitario }}</td>
-                <td>{{ venta.total }}</td>
-                <td>{{ venta.cliente }}</td>
-                <td>{{ venta.direccion_envio }}</td>
-                <td>{{ venta.telefono_contacto }}</td>
-                <td>{{ venta.email_contacto }}</td>
-                <td>
-                    <a href="{% url 'ventas_detalle' venta.id %}" class="btn btn-info btn-sm">Ver</a>
-                    <a href="{% url 'ventas_actualizar' venta.id %}" class="btn btn-primary btn-sm">Editar</a>
-                    <a href="{% url 'ventas_eliminar' venta.id %}" class="btn btn-danger btn-sm">Eliminar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+{% block content %}
+<h2>Listado de Ventas por Boleta</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th># Boleta</th>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Detalle de Ventas</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for boleta in boletas %}
+        <tr>
+            <td>{{ boleta.numero_boleta }}</td>
+            <td>{{ boleta.usuario.username }}</td>
+            <td>{{ boleta.fecha_creacion }}</td>
+            <td>${{ boleta.total }}</td>
+            <td>
+                <ul>
+                    {% for item in boleta.items.all %}
+                    <li>
+                        Producto: {{ item.producto.nombre }} <br>
+                        Cantidad: {{ item.cantidad }} x ${{ item.precio_unitario }} <br>
+                        Subtotal: ${{ item.subtotal }} <br>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Registrar Venta</h3>
+<form method="post" id="ventaForm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar Venta</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('ventaForm');
+        const productoSelect = form.querySelector('#id_producto');
+        const precioVentaInput = form.querySelector('#id_precio_venta');
+        
+        productoSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const precioUnitario = selectedOption.getAttribute('data-precio');
+            precioVentaInput.value = precioUnitario;
+        });
+    });
+</script>
 {% endblock %}

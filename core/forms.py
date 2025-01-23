@@ -2,7 +2,18 @@ from django import forms
 from .models import *
 from .models import Producto
 
-
+class TipoEntregaForm(forms.Form):
+    tipo_entrega = forms.ChoiceField(
+        choices=[
+            ('retiro', 'Retiro en sucursal'),
+            ('envio', 'Envío a domicilio'),
+        ],
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    direccion_envio = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección de envío'})
+    )
 
 class ProductoForm(forms.ModelForm):
     class Meta:

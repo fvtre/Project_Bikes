@@ -108,22 +108,14 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'ventas_listar' %}">Venta</a>
+                            <a class="nav-link" href="{% url 'ventas_listar' %}">Ventas</a>
+                        </li>
+                       
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mantenedor_productos' %}">Administrador de Productos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'mantenedor_arriendos' %}">Arriendos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'listar_servicios' %}">Servicio Técnico</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'mantenedor_bicicletas' %}">Mantenedor</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'mantenedor_productos' %}">Mantenedor de Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'mantenedor_clientes' %}">Mantenedor de Clientes</a>
+                            <a class="nav-link" href="{% url 'mantenedor_clientes' %}">Administrador de Clientes</a>
                         </li>
                         <li class="nav-item d-flex justify-content-center">
                             <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: inline;">

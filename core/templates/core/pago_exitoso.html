@@ -16,6 +16,27 @@
 </ul>
 
 <h4>Total: ${{ boleta.total }}</h4>
-<a href="{% url 'inicio' %}" class="btn btn-primary">Volver al inicio</a>
+
+<hr>
+
+<!-- Formulario para elegir el tipo de entrega -->
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="numero_boleta" value="{{ boleta.numero_boleta }}">
+    <div class="form-group">
+        <label for="tipo_entrega">Tipo de Entrega:</label>
+        {{ form.tipo_entrega }}
+    </div>
+    <div class="form-group">
+        <label for="direccion_envio">Dirección de Envío:</label>
+        {{ form.direccion_envio }}
+        <small class="form-text text-muted">Solo aplica para envíos a domicilio.</small>
+    </div>
+    <button type="submit" class="btn btn-success">Confirmar Entrega</button>
+</form>
+
+<hr>
+
+<a href="{% url 'inicio' %}" class="btn btn-primary mt-3">Volver al inicio</a>
 
 {% endblock %}

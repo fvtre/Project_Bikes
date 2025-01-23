@@ -1,15 +1,43 @@
 {% extends "core/base_intranet.html" %}
 
-
 {% block content %}
-<h2>Venta de Productos</h2>
-<form method="post" id="ventaForm">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Guardar Venta</button>
-</form>
-  
+<h2>Listado de Ventas por Boleta</h2>
 
+<table border="1">
+    <thead>
+        <tr>
+            <th># Boleta</th>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Detalle de Ventas</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for boleta in boletas %}
+        <tr>
+            <td>{{ boleta.numero_boleta }}</td>
+            <td>{{ boleta.usuario.username }}</td>
+            <td>{{ boleta.fecha_creacion }}</td>
+            <td>${{ boleta.total }}</td>
+            <td>
+                <ul>
+                    {% for item in boleta.items.all %}
+                    <li>{{ item.producto.nombre }} - {{ item.cantidad }} x ${{ item.precio_unitario }} = ${{ item.subtotal }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Registrar Venta</h3>
+<form method="post" id="ventaForm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar Venta</button>
+</form>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -23,5 +51,5 @@
             precioVentaInput.value = precioUnitario;
         });
     });
-    </script>
+</script>
 {% endblock %}
