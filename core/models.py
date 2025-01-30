@@ -193,7 +193,6 @@ class TransaccionPaypal(models.Model):
         return self.custom
     
 
-
 class BoletaItem(models.Model):
     boleta = models.ForeignKey(Boleta, on_delete=models.CASCADE, related_name='items')
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)

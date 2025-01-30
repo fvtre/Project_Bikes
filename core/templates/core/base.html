@@ -87,9 +87,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'tienda' %}">Tienda</a>
                         </li>
+                        {% if user.is_authenticated %}
+                        {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'registro' %}">Registro</a>
                         </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
                         </li>
